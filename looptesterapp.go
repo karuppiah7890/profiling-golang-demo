@@ -21,7 +21,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"log"
+	"os"
+	"runtime/pprof"
 
 	"github.com/karuppiah7890/profiling-golang-demo/lsg"
 
@@ -68,8 +72,20 @@ func buildBaseLoop(cfgraph *cfg.CFG, from int) int {
 	return footer
 }
 
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+
 func main() {
 	fmt.Printf("Welcome to LoopTesterApp, Go edition\n")
+
+	flag.Parse()
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	lsgraph := lsg.NewLSG()
 	cfgraph := cfg.NewCFG()

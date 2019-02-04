@@ -6,4 +6,4 @@ compile:  ## Compile the program
 	go build
 
 run:  ## Run the program
-	./xtime go run looptesterapp.go
+	./xtime go run looptesterapp.go -cpuprofile looptesterapp.prof
